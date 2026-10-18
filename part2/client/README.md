@@ -1,18 +1,18 @@
 # Chat Room SOAP Client
 
-This is a separate terminal client for the SOAP provider in `homework2`.
+This is a separate terminal client for the SOAP provider in `part2/server`.
 
 Start the server first:
 
 ```bash
-cd /home/leno/Desktop/project_paradym/homework2
+cd part2/server
 ./gradlew --console=plain run
 ```
 
 In another terminal, compile and run this client:
 
 ```bash
-cd /home/leno/Desktop/project_paradym/chat-room-client
+cd part2/client
 javac ChatRoomClient.java
 java ChatRoomClient
 ```
