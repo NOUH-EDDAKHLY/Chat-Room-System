@@ -1,0 +1,40 @@
+part 2 :
+
+1- Technology : SOAP Web Services using JAX-WS (Java API for XML Web Services)
+
+SOAP provides a high level of abstraction and strict contract enforcement, which is ideal for a structured system like a Chat Room. Because it relies on standardized XML messaging, it is inherently platform and language-agnostic. This ensures that users can seamlessly consume the service using software written in different programming languages (Python, Java , JavaScript) without worrying about underlying implementation details. 
+
+
+2- Formal Language: WSDL (Web Services Description Language) combined with XML Schema (XSD)
+
+WSDL is the industry-standard formal language used to describe the operations, message formats, protocols, and endpoints of a SOAP web service. XSD is used alongside it to strictly define the data types of the messages being exchanged. Together, they provide a rigid, machine-readable contract that ensures both the client and the server have an exact, shared understanding of the data structure and available operations.
+
+3- Contract Definition in Favorite Language 
+
+Chosen Language: Java (using JAX-WS and JAXB)
+
+Java is my preferred language and the implementation language for this project, I defined the contract using a Java interface. By annotating the interface and its methods with JAX-WS annotations (@WebService, @WebMethod) and using JAXB for data binding, the JAX-WS tooling (wsgen) automatically generates the formal WSDL and XSD files from this Java code. This approach allows me to define the contract in a familiar language while still producing the required formal XML specifications.
+
+
+4- Cite all AI tools selected and used
+
+The primary AI tool used for this project was Claude 
+
+
+5- Explain why these tools vs. others
+
+I chose Claude over other models because of its strong reasoning capabilities and its ability to explain complex concepts clearly. Rather than just autocompleting code, Claude acts as a collaborative partner. This made it highly useful for discussing the overall project architecture and understanding unfamiliar Java concepts before writing the actual implementation.
+
+6- Explain how you used them
+
+I used Claude primarily for three main tasks. First, I used it to design and structure the overall architecture of the project. Second, I used it to review and refine the business logic for the 10 required functions, ensuring my approach was sound and efficient. Third, I used it to look up and generate specific Java syntax for tasks I wanted to accomplish but was not entirely familiar with.
+
+7- . Cite all AI-generated content
+
+The AI-generated content consisted of the initial project architecture outline, architectural recommendations, logic reviews and corrections for the business functions, and specific Java syntax snippets. The actual writing, implementation, and integration of the final code were done by me.
+
+8- Validate outputs for accuracy and relevance
+
+I validated the AI's architectural and logic suggestions by manually implementing them and running gradle build to ensure there were no compilation errors. I then ran the application to verify that the WSDL was correctly generated and published. Finally, I manually tested the 10 functionalities using a SOAP client to ensure the business logic worked exactly as expected. Any errors or inefficiencies in the AI's suggestions were caught and corrected by me during this testing phase.
+
+

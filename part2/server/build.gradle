@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example'
+version = '0.0.1'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'javax.xml.ws:jaxws-api:2.3.1'
+    implementation 'javax.jws:javax.jws-api:1.1'
+    implementation 'com.sun.xml.ws:jaxws-rt:2.3.3'
+    implementation 'com.sun.xml.ws:jaxws-tools:2.3.3'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+application {
+    mainClass = 'com.example.chatroom.provider.Provider'
+    applicationDefaultJvmArgs = [
+            '--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED'
+    ]
+}
+
+tasks.register('generateWsdl', JavaExec) {
+    group = 'jax-ws'
+    description = 'Generate WSDL from the Java-first ChatRoom service'
+    dependsOn tasks.classes
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.sun.tools.ws.WsGen'
+    jvmArgs '--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED'
+    doFirst {
+        layout.buildDirectory.dir('generated/wsgen').get().asFile.mkdirs()
+        file('src/main/resources').mkdirs()
+    }
+    args '-wsdl',
+            '-cp', sourceSets.main.output.classesDirs.asPath,
+            '-d', layout.buildDirectory.dir('generated/wsgen').get().asFile,
+            '-r', file('src/main/resources'),
+            'com.example.chatroom.provider.ChatRoom'
+}

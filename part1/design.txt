@@ -1,0 +1,98 @@
+The client opens a TCP connection to the server (port 8080) and keeps it open for the whole session. Each request is one header line, and each reply starts with one header line.
+
+Fields should not contain ; or a Line Feed.
+Commands are written in upper case.
+Every reply is either a success header or ERR[one space][message][Line Feed].
+After 3 failed CREATE_ACCOUNT or LOGIN requests on the same connection, the server closes the connection.
+After login, the client sends the token it received in every later request. The server rejects any request with a missing or unknown token.
+
+1. Create an account
+
+The client sends:
+
+CREATE_ACCOUNT;[username];[password][Line Feed]
+
+Upon receiving this header, the server splits it into fields, checks the command, then validates the username and password and searches the users file for the username.
+
+If the header does not have exactly 3 fields, the server replies:
+ERR[one space]Invalid format[Line Feed]
+If the username is empty or contains a space, the server replies:
+ERR[one space]Username cannot be empty or contain spaces[Line Feed]
+If the password is empty, the server replies:
+ERR[one space]Password cannot be empty[Line Feed]
+If the username already exists, the server replies:
+ERR[one space]Username already exists[Line Feed]
+Otherwise the server stores the new account (username:password) in the users file and replies:
+OK[one space]Account created[Line Feed]
+
+2. Log in
+
+The client sends:
+
+LOGIN;[username];[password][Line Feed]
+
+Upon receiving this header, the server looks up the account in the users file and compares the password.
+
+If the header does not have exactly 3 fields, the server replies:
+ERR[one space]Invalid format[Line Feed]
+If the username is unknown or the password is wrong, the server replies:
+ERR[one space]Invalid credentials[Line Feed]
+If the credentials are correct, the server generates a random secret token (for example 32 hex characters), stores it in the Sessions table as token -> username, and replies:
+OK[one space]Logged in;[token][Line Feed]
+
+The client keeps the token in memory and sends it with every later command.
+
+3. Create a room
+
+The client sends:
+
+CREATE_ROOM;[token];[room name];[description][Line Feed]
+
+Upon receiving this header, the server validates the token, then searches the Rooms list for the name.
+
+If the header does not have exactly 4 fields or the room name or description is empty, the server replies:
+ERR[one space]Invalid format[Line Feed]
+If the token is invalid, the server replies:
+ERR[one space]Invalid token[Line Feed]
+If a room with this name already exists, the server replies:
+ERR[one space]Room already exists[Line Feed]
+Otherwise the server creates the room, assigns the next system-generated ID, appends it to the Rooms list, and replies:
+OK[one space]Room created;[room ID][Line Feed]
+
+4. List rooms
+
+The client sends:
+
+LIST_ROOMS;[token][Line Feed]
+
+Upon receiving this header, the server validates the token.
+
+If the header does not have exactly 2 fields, the server replies:
+ERR[one space]Invalid format[Line Feed]
+If the token is invalid, the server replies:
+ERR[one space]Invalid token[Line Feed]
+Otherwise the server replies with a header as the following:
+OK;[number of rooms][Line Feed]
+followed by exactly that many lines, one per room, in creation order:
+[room ID];[room name];[description][Line Feed]
+
+If there are no rooms, the reply is OK;0[Line Feed] with no lines after it.
+
+5. Join a room
+
+The client sends:
+
+JOIN_ROOM;[token];[room ID][Line Feed]
+
+Upon receiving this header, the server validates the token and searches the Rooms list for the ID.
+
+If the header does not have exactly 3 fields or the ID is not a number, the server replies:
+ERR[one space]Invalid format[Line Feed]
+If the token is invalid, the server replies:
+ERR[one space]Invalid token[Line Feed]
+If no room has this ID, the server replies:
+ERR[one space]Room not found[Line Feed]
+If the user is already a member of this room, the server replies:
+ERR[one space]Already a member[Line Feed]
+Otherwise the server adds the username to the room's member list and replies:
+OK[one space]Joined[Line Feed]

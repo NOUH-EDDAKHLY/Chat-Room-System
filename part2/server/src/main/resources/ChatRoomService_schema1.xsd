@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://example.com/chatroom" xmlns:tns="http://example.com/chatroom" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="broadcast" type="tns:broadcast"/>
+
+  <xs:element name="broadcastResponse" type="tns:broadcastResponse"/>
+
+  <xs:element name="createRoom" type="tns:createRoom"/>
+
+  <xs:element name="createRoomResponse" type="tns:createRoomResponse"/>
+
+  <xs:element name="joinRoom" type="tns:joinRoom"/>
+
+  <xs:element name="joinRoomResponse" type="tns:joinRoomResponse"/>
+
+  <xs:element name="leaveRoom" type="tns:leaveRoom"/>
+
+  <xs:element name="leaveRoomResponse" type="tns:leaveRoomResponse"/>
+
+  <xs:element name="listMessages" type="tns:listMessages"/>
+
+  <xs:element name="listMessagesResponse" type="tns:listMessagesResponse"/>
+
+  <xs:element name="listRooms" type="tns:listRooms"/>
+
+  <xs:element name="listRoomsResponse" type="tns:listRoomsResponse"/>
+
+  <xs:element name="listUsers" type="tns:listUsers"/>
+
+  <xs:element name="listUsersResponse" type="tns:listUsersResponse"/>
+
+  <xs:element name="login" type="tns:login"/>
+
+  <xs:element name="loginResponse" type="tns:loginResponse"/>
+
+  <xs:element name="logout" type="tns:logout"/>
+
+  <xs:element name="logoutResponse" type="tns:logoutResponse"/>
+
+  <xs:element name="privateMessage" type="tns:privateMessage"/>
+
+  <xs:element name="privateMessageResponse" type="tns:privateMessageResponse"/>
+
+  <xs:element name="register" type="tns:register"/>
+
+  <xs:element name="registerResponse" type="tns:registerResponse"/>
+
+  <xs:complexType name="login">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string" minOccurs="0"/>
+      <xs:element name="password" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="loginResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:loginResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="loginResult">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+      <xs:element name="success" type="xs:boolean"/>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createRoom">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createRoomResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="operationResult">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+      <xs:element name="success" type="xs:boolean"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="privateMessage">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="roomId" type="xs:string" minOccurs="0"/>
+      <xs:element name="recipient" type="xs:string" minOccurs="0"/>
+      <xs:element name="text" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="privateMessageResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="register">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string" minOccurs="0"/>
+      <xs:element name="password" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="registerResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:registerResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="registerResult">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+      <xs:element name="success" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listRooms">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listRoomsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listMessages">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="roomId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listMessagesResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="joinRoom">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="roomId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="joinRoomResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listUsers">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="roomId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="listUsersResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="leaveRoom">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="roomId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="leaveRoomResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="broadcast">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="roomId" type="xs:string" minOccurs="0"/>
+      <xs:element name="text" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="broadcastResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="logout">
+    <xs:sequence>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="logoutResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:operationResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
